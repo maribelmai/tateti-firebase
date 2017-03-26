@@ -9,6 +9,10 @@ public class Movimiento {
     private Integer posicion;
     private String jugador;
 
+    public Movimiento() {
+
+    }
+
     public Movimiento(String jugador, Integer posicion) {
         this.jugador = jugador;
         this.posicion = posicion;

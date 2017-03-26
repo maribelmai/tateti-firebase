@@ -39,7 +39,7 @@ public class ActividadInicial extends ActividadBasica {
             if (task.isSuccessful()) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
-                    crearPartida();
+                    verPartidas();
                 }
                 else {
                     FirebaseAuth.getInstance().signOut();
@@ -63,14 +63,14 @@ public class ActividadInicial extends ActividadBasica {
         super.onCreate(savedInstanceState);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            crearPartida();
+            verPartidas();
             finish();
         }
     }
 
-    private void crearPartida() {
+    private void verPartidas() {
 
-        Intent intent = new Intent(this, ActividadPartida.class);
+        Intent intent = new Intent(this, ActividadPartidas.class);
         startActivity(intent);
     }
 
