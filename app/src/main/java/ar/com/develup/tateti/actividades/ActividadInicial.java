@@ -1,7 +1,9 @@
 package ar.com.develup.tateti.actividades;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.EditText;
@@ -37,7 +39,7 @@ public class ActividadInicial extends ActividadBasica {
             if (task.isSuccessful()) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
-                    Snackbar.make(rootView, "Inicio de sesión correcto", Snackbar.LENGTH_SHORT).show();
+                    crearPartida();
                 }
                 else {
                     FirebaseAuth.getInstance().signOut();
@@ -55,6 +57,22 @@ public class ActividadInicial extends ActividadBasica {
             }
         }
     };
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            crearPartida();
+            finish();
+        }
+    }
+
+    private void crearPartida() {
+
+        Intent intent = new Intent(this, ActividadPartida.class);
+        startActivity(intent);
+    }
 
     @Override
     protected int getLayout() {

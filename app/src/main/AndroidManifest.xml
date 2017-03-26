@@ -20,6 +20,9 @@
 
         <activity android:name=".actividades.ActividadRegistracion"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".actividades.ActividadPartida"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.33"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/posicion1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="1"/>
+
+            <Button
+                android:id="@+id/posicion2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="2"/>
+
+            <Button
+                android:id="@+id/posicion3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="3"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.33"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/posicion4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="4"/>
+
+            <Button
+                android:id="@+id/posicion5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="5"/>
+
+            <Button
+                android:id="@+id/posicion6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="6"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.33"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/posicion7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="7"/>
+
+            <Button
+                android:id="@+id/posicion8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="8"/>
+
+            <Button
+                android:id="@+id/posicion9"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                tools:text="x"
+                android:layout_weight="0.33"
+                android:tag="9"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
