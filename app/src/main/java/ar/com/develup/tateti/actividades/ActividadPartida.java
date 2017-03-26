@@ -1,6 +1,9 @@
 package ar.com.develup.tateti.actividades;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -10,6 +13,7 @@ import ar.com.develup.tateti.R;
 import ar.com.develup.tateti.modelo.Constantes;
 import ar.com.develup.tateti.modelo.Movimiento;
 import ar.com.develup.tateti.modelo.Partida;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -19,9 +23,35 @@ import butterknife.OnClick;
 public class ActividadPartida extends ActividadBasica {
 
     private static final String TAG = ActividadPartida.class.getSimpleName();
-
-    private String keyPartida;
     private Partida partida;
+
+    @BindView(R.id.tablero)
+    LinearLayout tablero;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getIntent().getExtras().containsKey(Constantes.EXTRA_PARTIDA)) {
+            partida = (Partida) getIntent().getSerializableExtra(Constantes.EXTRA_PARTIDA);
+            cargarVistasPartidaIniciada();
+        }
+    }
+
+    private void cargarVistasPartidaIniciada() {
+
+        for (Movimiento movimiento : this.partida.getMovimientos()) {
+
+            Button boton = (Button) tablero.findViewWithTag(String.valueOf(movimiento.getPosicion()));
+
+            if (movimiento.getJugador().equals(this.partida.getRetador())) {
+                boton.setText("X");
+            }
+            else {
+                boton.setText("O");
+            }
+        }
+    }
 
     @Override
     protected int getLayout() {
@@ -41,23 +71,35 @@ public class ActividadPartida extends ActividadBasica {
         }
         else {
 
+            button.setText("O");
+            actualizarPartida(numeroPosicion);
         }
+    }
+
+    private void actualizarPartida(Integer posicion) {
+
+        String jugador = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        this.partida.getMovimientos().add(new Movimiento(jugador, posicion));
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS);
+        DatabaseReference referenciaPartida = referenciaPartidas.child(this.partida.getId());
+        referenciaPartida.child("movimientos").setValue(this.partida.getMovimientos());
     }
 
     private void crearPartida(Integer posicion) {
 
         String jugador = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        partida = new Partida();
-        partida.setRetador(jugador);
-        partida.getMovimientos().add(new Movimiento(jugador, posicion));
+        this.partida = new Partida();
+        this.partida.setRetador(jugador);
+        this.partida.getMovimientos().add(new Movimiento(jugador, posicion));
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         DatabaseReference referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS);
 
         DatabaseReference referenciaPartida = referenciaPartidas.push();
-        referenciaPartida.setValue(partida);
-
-        keyPartida = referenciaPartida.getKey();
+        referenciaPartida.setValue(this.partida);
+        this.partida.setId(referenciaPartida.getKey());
     }
 }

@@ -1,5 +1,6 @@
 package ar.com.develup.tateti.modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by maribelmai on 26/3/17.
  */
 
-public class Partida {
+public class Partida implements Serializable {
 
     private transient String id;
 

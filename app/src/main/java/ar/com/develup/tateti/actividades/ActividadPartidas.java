@@ -67,7 +67,7 @@ public class ActividadPartidas extends ActividadBasica {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.adaptadorPartidas = new AdaptadorPartidas();
+        this.adaptadorPartidas = new AdaptadorPartidas(this);
         this.partidasRecycler.setLayoutManager(new LinearLayoutManager(this));
         this.partidasRecycler.setAdapter(adaptadorPartidas);
     }

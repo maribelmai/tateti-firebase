@@ -1,16 +1,17 @@
 package ar.com.develup.tateti.modelo;
 
+import java.io.Serializable;
+
 /**
  * Created by maribelmai on 26/3/17.
  */
 
-public class Movimiento {
+public class Movimiento implements Serializable {
 
     private Integer posicion;
     private String jugador;
 
     public Movimiento() {
-
     }
 
     public Movimiento(String jugador, Integer posicion) {
