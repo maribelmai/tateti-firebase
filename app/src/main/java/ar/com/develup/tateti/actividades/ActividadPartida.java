@@ -6,8 +6,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import ar.com.develup.tateti.R;
 import ar.com.develup.tateti.modelo.Constantes;
@@ -28,14 +32,36 @@ public class ActividadPartida extends ActividadBasica {
     @BindView(R.id.tablero)
     LinearLayout tablero;
 
+    private ValueEventListener partidaCambio = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            GenericTypeIndicator<Partida> typeIndicator = new GenericTypeIndicator<Partida>() {};
+            Partida partida = dataSnapshot.getValue(typeIndicator);
+            partida.setId(dataSnapshot.getKey());
+            ActividadPartida.this.partida = partida;
+            cargarVistasPartidaIniciada();
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getIntent().getExtras().containsKey(Constantes.EXTRA_PARTIDA)) {
+        if (getIntent().hasExtra(Constantes.EXTRA_PARTIDA)) {
             partida = (Partida) getIntent().getSerializableExtra(Constantes.EXTRA_PARTIDA);
+            configurarListeners();
             cargarVistasPartidaIniciada();
         }
+    }
+
+    private void configurarListeners() {
+
+        FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(this.partida.getId()).addValueEventListener(this.partidaCambio);
     }
 
     private void cargarVistasPartidaIniciada() {
@@ -101,5 +127,6 @@ public class ActividadPartida extends ActividadBasica {
         DatabaseReference referenciaPartida = referenciaPartidas.push();
         referenciaPartida.setValue(this.partida);
         this.partida.setId(referenciaPartida.getKey());
+        this.configurarListeners();
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Partida implements Serializable {
 
-    private transient String id;
+    private String id;
 
     private String retador;
     private String oponente;
