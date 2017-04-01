@@ -2,6 +2,9 @@ package ar.com.develup.tateti.actividades;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -29,6 +32,9 @@ public class ActividadPartida extends ActividadBasica {
     private static final String TAG = ActividadPartida.class.getSimpleName();
     private Partida partida;
 
+    @BindView(R.id.rootView)
+    View rootView;
+
     @BindView(R.id.tablero)
     LinearLayout tablero;
 
@@ -54,6 +60,11 @@ public class ActividadPartida extends ActividadBasica {
 
         if (getIntent().hasExtra(Constantes.EXTRA_PARTIDA)) {
             partida = (Partida) getIntent().getSerializableExtra(Constantes.EXTRA_PARTIDA);
+
+            if (partida.getOponente() == null) {
+                sumarmeComoOponente();
+            }
+
             configurarListeners();
             cargarVistasPartidaIniciada();
         }
@@ -76,7 +87,70 @@ public class ActividadPartida extends ActividadBasica {
             else {
                 boton.setText("O");
             }
+
+            boton.setEnabled(false);
         }
+
+        comprobarGanador();
+    }
+
+    private void comprobarGanador() {
+
+        if (hayTaTeTi()) {
+
+            String jugador = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Partida finalizada");
+            builder.setMessage(partida.getGanador().equals(jugador)? "GANASTE!" : "PERDISTE :(");
+
+            try {
+                builder.show();
+            }
+            catch (Exception ignored){}
+        }
+    }
+
+    private boolean hayTaTeTi() {
+        
+        return sonIguales(1,2,3) || sonIguales(4,5,6) || sonIguales(7,8,9) //Horizontal
+                || sonIguales(1,4,7) || sonIguales(2,5,8) || sonIguales(3,6,9) //Vertical
+                || sonIguales(1,5,9) || sonIguales(3,5,7); //Diagonal
+    }
+
+    private boolean sonIguales(Integer... casilleros) {
+
+        Boolean sonIguales = true;
+        String valor = null;
+
+        for (int i = 0; i < casilleros.length && sonIguales; i++) {
+
+            Button boton = (Button) tablero.findViewWithTag(String.valueOf(casilleros[i]));
+            String simbolo = boton.getText().toString();
+
+            if (valor == null) {
+                valor = simbolo;
+            }
+            else {
+                sonIguales = !simbolo.isEmpty() && valor.equals(simbolo);
+            }
+        }
+
+        if (sonIguales) {
+
+            for (Integer casillero : casilleros) {
+                Button boton = (Button) tablero.findViewWithTag(String.valueOf(casillero));
+                boton.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+            }
+
+            if (("X").equalsIgnoreCase(valor)) {
+                partida.setGanador(partida.getRetador());
+            }
+            else if (("O").equalsIgnoreCase(valor)) {
+                partida.setGanador(partida.getOponente());
+            }
+        }
+        return sonIguales;
     }
 
     @Override
@@ -87,19 +161,34 @@ public class ActividadPartida extends ActividadBasica {
     @OnClick({R.id.posicion1, R.id.posicion2, R.id.posicion3, R.id.posicion4,R.id.posicion5,R.id.posicion6,R.id.posicion7,R.id.posicion8,R.id.posicion9})
     public void jugar(Button button) {
 
-        String posicion = (String) button.getTag();
-        Integer numeroPosicion = Integer.valueOf(posicion);
+        if (esMiTurno()) {
 
-        if (partida == null) {
+            String posicion = (String) button.getTag();
+            Integer numeroPosicion = Integer.valueOf(posicion);
 
-            button.setText("X");
-            crearPartida(numeroPosicion);
+            if (partida == null) {
+
+                button.setText("X");
+                crearPartida(numeroPosicion);
+            }
+            else {
+
+                button.setText("O");
+                actualizarPartida(numeroPosicion);
+            }
         }
         else {
-
-            button.setText("O");
-            actualizarPartida(numeroPosicion);
+            Snackbar.make(rootView, "Es el turno de tu oponente", Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean esMiTurno() {
+
+        String jugador = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        return this.partida != null
+                &&
+                !this.partida.getMovimientos().get(this.partida.getMovimientos().size() -1).getJugador().equals(jugador);
     }
 
     private void actualizarPartida(Integer posicion) {
@@ -128,5 +217,16 @@ public class ActividadPartida extends ActividadBasica {
         referenciaPartida.setValue(this.partida);
         this.partida.setId(referenciaPartida.getKey());
         this.configurarListeners();
+    }
+
+    private void sumarmeComoOponente() {
+
+        String jugador = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        this.partida.setOponente(jugador);
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS);
+        DatabaseReference referenciaPartida = referenciaPartidas.child(this.partida.getId());
+        referenciaPartida.child("oponente").setValue(jugador);
     }
 }
