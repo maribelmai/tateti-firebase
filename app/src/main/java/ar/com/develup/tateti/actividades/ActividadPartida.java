@@ -177,6 +177,7 @@ public class ActividadPartida extends ActividadBasica {
 
         if (esMiTurno()) {
 
+            String jugador = FirebaseAuth.getInstance().getCurrentUser().getUid();
             String posicion = (String) button.getTag();
             Integer numeroPosicion = Integer.valueOf(posicion);
 
@@ -185,17 +186,19 @@ public class ActividadPartida extends ActividadBasica {
                 button.setText("X");
                 crearPartida(numeroPosicion);
             }
-            else if (partida.getGanador() != null) {
+            else if (partida.getGanador() == null) {
 
-                button.setText("O");
+                if (partida.getRetador().equals(jugador)) {
+                    button.setText("X");
+                }
+                else if (partida.getOponente().equals(jugador)) {
+                    button.setText("O");
+                }
                 actualizarPartida(numeroPosicion);
             }
         }
         else if (partida.getGanador() == null) {
             Snackbar.make(rootView, "Es el turno de tu oponente", Snackbar.LENGTH_SHORT).show();
-        }
-        else {
-            Snackbar.make(rootView, "La partida finalizó", Snackbar.LENGTH_SHORT).show();
         }
     }
 
