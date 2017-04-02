@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,20 +11,22 @@
         android:id="@+id/idPartida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ufhir72387yi"
+        tools:text="ufhir72387yi"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/jugadores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Maribel"
-        android:layout_marginTop="8dp"/>
+        tools:text="Maribel"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/idPartida"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@android:color/darker_gray"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/jugadores"/>
 
-</LinearLayout>
+</RelativeLayout>

@@ -66,7 +66,6 @@ public class ActividadPartida extends ActividadBasica {
             }
 
             configurarListeners();
-            cargarVistasPartidaIniciada();
         }
     }
 
@@ -109,6 +108,21 @@ public class ActividadPartida extends ActividadBasica {
             }
             catch (Exception ignored){}
         }
+        else if (finalizo()) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Partida finalizada");
+            builder.setMessage("Es un empate");
+
+            try {
+                builder.show();
+            }
+            catch (Exception ignored){}
+        }
+    }
+
+    private boolean finalizo() {
+        return this.partida.getMovimientos().size() == 9;
     }
 
     private boolean hayTaTeTi() {
@@ -171,14 +185,17 @@ public class ActividadPartida extends ActividadBasica {
                 button.setText("X");
                 crearPartida(numeroPosicion);
             }
-            else {
+            else if (partida.getGanador() != null) {
 
                 button.setText("O");
                 actualizarPartida(numeroPosicion);
             }
         }
-        else {
+        else if (partida.getGanador() == null) {
             Snackbar.make(rootView, "Es el turno de tu oponente", Snackbar.LENGTH_SHORT).show();
+        }
+        else {
+            Snackbar.make(rootView, "La partida finalizó", Snackbar.LENGTH_SHORT).show();
         }
     }
 
