@@ -158,13 +158,22 @@ public class ActividadPartida extends ActividadBasica {
             }
 
             if (("X").equalsIgnoreCase(valor)) {
-                partida.setGanador(partida.getRetador());
+                establecerGanador(partida.getRetador());
             }
             else if (("O").equalsIgnoreCase(valor)) {
-                partida.setGanador(partida.getOponente());
+                establecerGanador(partida.getOponente());
             }
         }
         return sonIguales;
+    }
+
+    private void establecerGanador(String ganador) {
+
+        partida.setGanador(ganador);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS);
+        DatabaseReference referenciaPartida = referenciaPartidas.child(this.partida.getId());
+        referenciaPartida.child("ganador").setValue(ganador);
     }
 
     @Override
