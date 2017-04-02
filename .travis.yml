@@ -9,6 +9,8 @@ android:
     - build-tools-25.0.2
     - android-25
     - extra-android-m2repository
+    - extra-google-google_play_services
+    - extra-google-m2repository
 
 #before_script:
   # Create and start emulator
