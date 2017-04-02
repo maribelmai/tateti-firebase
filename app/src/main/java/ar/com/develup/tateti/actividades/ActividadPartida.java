@@ -186,8 +186,8 @@ public class ActividadPartida extends ActividadBasica {
 
         String jugador = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        return this.partida != null
-                &&
+        return this.partida == null
+                ||
                 !this.partida.getMovimientos().get(this.partida.getMovimientos().size() -1).getJugador().equals(jugador);
     }
 
