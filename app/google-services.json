@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1017522255646-babb9pfddgv084547p8pr2aqrkve21n2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ar.com.develup.tateti",
+            "certificate_hash": "4fd293602b1ad4aadbf46a294d811102792b37c8"
+          }
+        },
+        {
           "client_id": "1017522255646-kea11vl91jt301gj2ha730nrrjvg4mb6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,6 +15,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ar.com.develup.tateti.R;
 import butterknife.BindView;
@@ -31,6 +36,9 @@ public class ActividadInicial extends ActividadBasica {
 
     @BindView(R.id.password)
     EditText password;
+
+    @BindView(R.id.olvideMiContrasena)
+    Button olvideMiContrasena;
 
     private OnCompleteListener<AuthResult> authenticationListener = new OnCompleteListener<AuthResult>() {
         @Override
@@ -66,12 +74,54 @@ public class ActividadInicial extends ActividadBasica {
             verPartidas();
             finish();
         }
+
+        actualizarRemoteConfig();
+        configurarOlvideMiContrasena();
     }
+
+
 
     private void verPartidas() {
 
         Intent intent = new Intent(this, ActividadPartidas.class);
         startActivity(intent);
+    }
+
+    private void actualizarRemoteConfig() {
+
+        final FirebaseRemoteConfig instance = FirebaseRemoteConfig.getInstance();
+
+        instance.fetch(5)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful()) {
+
+                            instance.activateFetched();
+
+                            configurarOlvideMiContrasena();
+                        }
+
+                    }
+                });
+
+    }
+
+    private void configurarOlvideMiContrasena() {
+
+        FirebaseRemoteConfig instance = FirebaseRemoteConfig.getInstance();
+
+        Map<String, Object> defaults = new HashMap<String, Object>();
+        defaults.put("olvideMiContrasena", true);
+
+        instance.setDefaults(defaults);
+//        instance.setDefaults(R.xml.firebase_config_defaults);
+
+        boolean featureActivo = instance.getBoolean("olvideMiContrasena");
+
+        int visibilidad = featureActivo ? View.VISIBLE : View.GONE;
+        this.olvideMiContrasena.setVisibility(visibilidad);
     }
 
     @Override
