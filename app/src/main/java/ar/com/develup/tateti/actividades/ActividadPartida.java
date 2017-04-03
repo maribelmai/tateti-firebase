@@ -13,7 +13,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import ar.com.develup.tateti.R;
@@ -42,8 +41,7 @@ public class ActividadPartida extends ActividadBasica {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
 
-            GenericTypeIndicator<Partida> typeIndicator = new GenericTypeIndicator<Partida>() {};
-            Partida partida = dataSnapshot.getValue(typeIndicator);
+            Partida partida = dataSnapshot.getValue(Partida.class);
             partida.setId(dataSnapshot.getKey());
             ActividadPartida.this.partida = partida;
             cargarVistasPartidaIniciada();

@@ -44,7 +44,19 @@ public class AdaptadorPartidas extends RecyclerView.Adapter<AdaptadorPartidas.Ho
         Partida partida = partidas.get(position);
         holder.partida = partida;
         holder.idPartida.setText(partida.getId());
-        holder.jugadores.setText(partida.getRetador());
+
+        String estado = "";
+        if (partida.getOponente() == null) {
+            estado = "ESPERANDO OPONENTE";
+        }
+        else if (partida.getGanador() == null) {
+            estado = "EN JUEGO";
+        }
+        else {
+            estado = "PARTIDA FINALIZADA";
+        }
+
+        holder.estado.setText(estado);
     }
 
     @Override
@@ -66,13 +78,12 @@ public class AdaptadorPartidas extends RecyclerView.Adapter<AdaptadorPartidas.Ho
 
         @BindView(R.id.idPartida)
         TextView idPartida;
-        @BindView(R.id.jugadores)
-        TextView jugadores;
+        @BindView(R.id.estado)
+        TextView estado;
 
         private final View.OnClickListener clickPartidaListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(actividad, ActividadPartida.class);
                 intent.putExtra(Constantes.EXTRA_PARTIDA, partida);
                 actividad.startActivity(intent);
