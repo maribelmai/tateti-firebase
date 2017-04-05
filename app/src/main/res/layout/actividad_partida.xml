@@ -24,6 +24,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 tools:text="x"
+                android:textSize="24sp"
                 android:layout_weight="0.33"
                 android:tag="1"/>
 
@@ -33,6 +34,7 @@
                 android:layout_height="match_parent"
                 tools:text="x"
                 android:layout_weight="0.33"
+                android:textSize="24sp"
                 android:tag="2"/>
 
             <Button
@@ -40,6 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 tools:text="x"
+                android:textSize="24sp"
                 android:layout_weight="0.33"
                 android:tag="3"/>
 
@@ -57,6 +60,7 @@
                 android:layout_height="match_parent"
                 tools:text="x"
                 android:layout_weight="0.33"
+                android:textSize="24sp"
                 android:tag="4"/>
 
             <Button
@@ -65,6 +69,7 @@
                 android:layout_height="match_parent"
                 tools:text="x"
                 android:layout_weight="0.33"
+                android:textSize="24sp"
                 android:tag="5"/>
 
             <Button
@@ -73,6 +78,7 @@
                 android:layout_height="match_parent"
                 tools:text="x"
                 android:layout_weight="0.33"
+                android:textSize="24sp"
                 android:tag="6"/>
         </LinearLayout>
 
@@ -88,6 +94,7 @@
                 android:layout_height="match_parent"
                 tools:text="x"
                 android:layout_weight="0.33"
+                android:textSize="24sp"
                 android:tag="7"/>
 
             <Button
@@ -96,6 +103,7 @@
                 android:layout_height="match_parent"
                 tools:text="x"
                 android:layout_weight="0.33"
+                android:textSize="24sp"
                 android:tag="8"/>
 
             <Button
@@ -104,6 +112,7 @@
                 android:layout_height="match_parent"
                 tools:text="x"
                 android:layout_weight="0.33"
+                android:textSize="24sp"
                 android:tag="9"/>
         </LinearLayout>
     </LinearLayout>

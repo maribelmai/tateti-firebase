@@ -11,7 +11,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 
 import ar.com.develup.tateti.R;
 import ar.com.develup.tateti.adaptadores.AdaptadorPartidas;
@@ -37,8 +36,7 @@ public class ActividadPartidas extends ActividadBasica {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Log.i(TAG, "onChildAdded: " + dataSnapshot);
 
-            GenericTypeIndicator<Partida> typeIndicator = new GenericTypeIndicator<Partida>() {};
-            Partida partida = dataSnapshot.getValue(typeIndicator);
+            Partida partida = dataSnapshot.getValue(Partida.class);
             partida.setId(dataSnapshot.getKey());
             adaptadorPartidas.agregarPartida(partida);
         }
