@@ -72,6 +72,24 @@ public class AdaptadorPartidas extends RecyclerView.Adapter<AdaptadorPartidas.Ho
         }
     }
 
+    public void partidaCambio(Partida partida) {
+
+        if (partidas.contains(partida)) {
+            int posicion = partidas.indexOf(partida);
+            partidas.set(posicion, partida);
+            notifyItemChanged(posicion);
+        }
+    }
+
+    public void remover(Partida partida) {
+
+        if (partidas.contains(partida)) {
+            int posicion = partidas.indexOf(partida);
+            partidas.remove(partida);
+            notifyItemRemoved(posicion);
+        }
+    }
+
     class Holder extends RecyclerView.ViewHolder {
 
         Partida partida;

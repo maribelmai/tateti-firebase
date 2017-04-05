@@ -34,6 +34,7 @@ public class ActividadPartidas extends ActividadBasica {
 
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
             Log.i(TAG, "onChildAdded: " + dataSnapshot);
 
             Partida partida = dataSnapshot.getValue(Partida.class);
@@ -43,12 +44,19 @@ public class ActividadPartidas extends ActividadBasica {
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
             Log.i(TAG, "onChildChanged: " + s);
+            Partida partida = dataSnapshot.getValue(Partida.class);
+            partida.setId(dataSnapshot.getKey());
+            adaptadorPartidas.partidaCambio(partida);
         }
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Log.i(TAG, "onChildRemoved: ");
+            Partida partida = dataSnapshot.getValue(Partida.class);
+            partida.setId(dataSnapshot.getKey());
+            adaptadorPartidas.remover(partida);
         }
 
         @Override
@@ -74,12 +82,6 @@ public class ActividadPartidas extends ActividadBasica {
     protected void onResume() {
         super.onResume();
         FirebaseDatabase.getInstance().getReference().child(Constantes.TABLA_PARTIDAS).addChildEventListener(this.listenerTablaPartidas);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FirebaseDatabase.getInstance().getReference().child(Constantes.TABLA_PARTIDAS).removeEventListener(this.listenerTablaPartidas);
     }
 
     @Override

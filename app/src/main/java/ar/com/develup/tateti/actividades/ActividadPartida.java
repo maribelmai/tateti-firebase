@@ -42,9 +42,12 @@ public class ActividadPartida extends ActividadBasica {
         public void onDataChange(DataSnapshot dataSnapshot) {
 
             Partida partida = dataSnapshot.getValue(Partida.class);
-            partida.setId(dataSnapshot.getKey());
-            ActividadPartida.this.partida = partida;
-            cargarVistasPartidaIniciada();
+
+            if (partida != null) {
+                partida.setId(dataSnapshot.getKey());
+                ActividadPartida.this.partida = partida;
+                cargarVistasPartidaIniciada();
+            }
         }
 
         @Override
@@ -69,7 +72,15 @@ public class ActividadPartida extends ActividadBasica {
 
     private void configurarListeners() {
 
-        FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(this.partida.getId()).addValueEventListener(this.partidaCambio);
+        FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(this.partida.getId())
+                .addValueEventListener(this.partidaCambio);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(this.partida.getId())
+                .removeEventListener(this.partidaCambio);
     }
 
     private void cargarVistasPartidaIniciada() {
