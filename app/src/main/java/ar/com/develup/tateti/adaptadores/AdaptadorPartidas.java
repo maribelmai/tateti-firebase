@@ -1,22 +1,21 @@
 package ar.com.develup.tateti.adaptadores;
 
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.develup.tateti.R;
-import ar.com.develup.tateti.actividades.ActividadBasica;
 import ar.com.develup.tateti.actividades.ActividadPartida;
+import ar.com.develup.tateti.actividades.ActividadPartidas;
 import ar.com.develup.tateti.modelo.Constantes;
 import ar.com.develup.tateti.modelo.Partida;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by maribelmai on 26/3/17.
@@ -25,10 +24,10 @@ import butterknife.ButterKnife;
 public class AdaptadorPartidas extends RecyclerView.Adapter<AdaptadorPartidas.Holder> {
 
     private List<Partida> partidas = new ArrayList<>();
-    private ActividadBasica actividad;
+    private ActividadPartidas actividad;
 
-    public AdaptadorPartidas(ActividadBasica actividadBasica) {
-        this.actividad = actividadBasica;
+    public AdaptadorPartidas(ActividadPartidas actividad) {
+        this.actividad = actividad;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class AdaptadorPartidas extends RecyclerView.Adapter<AdaptadorPartidas.Ho
 
         Partida partida = partidas.get(position);
         holder.partida = partida;
-        holder.idPartida.setText(partida.getId());
+        holder.idPartida.setText(partida.id);
 
         String estado = "";
         if (partida.getOponente() == null) {
@@ -94,9 +93,7 @@ public class AdaptadorPartidas extends RecyclerView.Adapter<AdaptadorPartidas.Ho
 
         Partida partida;
 
-        @BindView(R.id.idPartida)
         TextView idPartida;
-        @BindView(R.id.estado)
         TextView estado;
 
         private final View.OnClickListener clickPartidaListener = new View.OnClickListener() {
@@ -110,8 +107,9 @@ public class AdaptadorPartidas extends RecyclerView.Adapter<AdaptadorPartidas.Ho
 
         public Holder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this.clickPartidaListener);
+            this.idPartida = itemView.findViewById(R.id.idPartida);
+            this.estado = itemView.findViewById(R.id.estado);
         }
     }
 }
