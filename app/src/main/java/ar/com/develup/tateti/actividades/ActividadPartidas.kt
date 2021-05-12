@@ -24,21 +24,21 @@ class ActividadPartidas : AppCompatActivity() {
             Log.i(TAG, "onChildAdded: $dataSnapshot")
             val partida = dataSnapshot.getValue(Partida::class.java)!!
             partida.id = dataSnapshot.key
-            adaptadorPartidas!!.agregarPartida(partida)
+            adaptadorPartidas.agregarPartida(partida)
         }
 
         override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
             Log.i(TAG, "onChildChanged: $s")
             val partida = dataSnapshot.getValue(Partida::class.java)!!
             partida.id = dataSnapshot.key
-            adaptadorPartidas!!.partidaCambio(partida)
+            adaptadorPartidas.partidaCambio(partida)
         }
 
         override fun onChildRemoved(dataSnapshot: DataSnapshot) {
             Log.i(TAG, "onChildRemoved: ")
             val partida = dataSnapshot.getValue(Partida::class.java)!!
             partida.id = dataSnapshot.key
-            adaptadorPartidas!!.remover(partida)
+            adaptadorPartidas.remover(partida)
         }
 
         override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
